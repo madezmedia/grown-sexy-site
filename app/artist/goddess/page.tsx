@@ -8,11 +8,11 @@ import Link from 'next/link'
 import { useRef } from 'react'
 
 const images = [
-  { id: 1, url: '/images/goddess-1.jpg', alt: 'GODDE$$ in elegant black gown' },
-  { id: 2, url: '/images/goddess-2.jpg', alt: 'GODDE$$ in tiger print fur' },
-  { id: 3, url: '/images/goddess-3.jpg', alt: 'GODDE$$ in white fur' },
-  { id: 4, url: '/images/goddess-4.jpg', alt: 'GODDE$$ in gold dress' },
-  { id: 5, url: '/images/goddess-5.jpg', alt: 'GODDE$$ in prayer pose' },
+  { id: 1, url: '/images/goddess/goddess-1.jpg', alt: 'GODDE$$ in elegant black gown' },
+  { id: 2, url: '/images/goddess/goddess-2.jpg', alt: 'GODDE$$ in tiger print fur' },
+  { id: 3, url: '/images/goddess/goddess-3.jpg', alt: 'GODDE$$ in white fur' },
+  { id: 4, url: '/images/goddess/goddess-4.jpg', alt: 'GODDE$$ in gold dress' },
+  { id: 5, url: '/images/goddess/goddess-5.jpg', alt: 'GODDE$$ in prayer pose' },
 ]
 
 export default function GoddessPage() {

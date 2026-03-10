@@ -103,7 +103,7 @@ export default function Home() {
                   <div className="glass rounded-3xl overflow-hidden hover:border-[#DC143C]/50 transition-all duration-500">
                     <div className="aspect-[16/9] bg-gradient-to-br from-[#DC143C]/20 to-[#DAA520]/20 flex items-center justify-center relative">
                       {/* Placeholder for artist image */}
-                      <div className="absolute inset-0 bg-[url('/images/goddess-preview.jpg')] bg-cover bg-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-[url('/images/goddess/goddess-preview.jpg')] bg-cover bg-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
 
                       <div className="relative z-10 text-center p-12">
                         <h3 className="text-6xl md:text-8xl font-display font-black text-gradient-gold mb-4">
