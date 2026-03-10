@@ -1,18 +1,22 @@
 "use client"
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { AnimatedLogo } from '@/components/hero/AnimatedLogo'
 import { HeroVideo } from '@/components/hero/HeroVideo'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
+import { JoinFlow } from '@/components/onboarding/JoinFlow'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 import Link from 'next/link'
 
 export default function Home() {
+  const [isJoinFlowOpen, setIsJoinFlowOpen] = useState(false)
   return (
     <>
       <ScrollProgress />
+      <JoinFlow isOpen={isJoinFlowOpen} onClose={() => setIsJoinFlowOpen(false)} />
 
       <main className="min-h-screen bg-black text-cream">
         {/* Hero Section */}
@@ -41,12 +45,18 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
             >
-              <MagneticButton variant="primary" size="lg">
+              <MagneticButton
+                variant="primary"
+                size="lg"
+                onClick={() => setIsJoinFlowOpen(true)}
+              >
                 Join the Movement
               </MagneticButton>
-              <MagneticButton variant="outline" size="lg">
-                Explore Events
-              </MagneticButton>
+              <Link href="/events">
+                <MagneticButton variant="outline" size="lg">
+                  Explore Events
+                </MagneticButton>
+              </Link>
             </motion.div>
 
             {/* Scroll indicator */}
@@ -214,15 +224,17 @@ export default function Home() {
             </div>
 
             <motion.div className="text-center mt-12" variants={fadeInUp}>
-              <MagneticButton variant="secondary" size="lg">
-                View All Events
-              </MagneticButton>
+              <Link href="/events">
+                <MagneticButton variant="secondary" size="lg">
+                  View All Events
+                </MagneticButton>
+              </Link>
             </motion.div>
           </motion.div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-32 px-6 bg-gradient-to-b from-[#0A0A0A] to-black">
+        <section id="join" className="py-32 px-6 bg-gradient-to-b from-[#0A0A0A] to-black">
           <motion.div
             className="max-w-4xl mx-auto text-center"
             initial="hidden"
@@ -246,7 +258,11 @@ export default function Home() {
               We&apos;re all capable of living our best lives.
             </motion.p>
             <motion.div variants={fadeInUp}>
-              <MagneticButton variant="primary" size="lg">
+              <MagneticButton
+                variant="primary"
+                size="lg"
+                onClick={() => setIsJoinFlowOpen(true)}
+              >
                 Get Started Today
               </MagneticButton>
             </motion.div>
