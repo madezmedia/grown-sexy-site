@@ -48,9 +48,10 @@ Add these 5 images to this folder:
 
 ## Current Status
 
-⚠️ **Images not yet added** - Gallery shows placeholder gradients
+✅ **Code Updated** - Site now uses `next/image` to render images automatically
+⚠️ **Images not yet added** - Gallery currently shows placeholder gradients as fallback
 ✅ Once you add images, they will automatically appear on the site
-✅ No code changes needed - just drop the files here!
+✅ No further code changes needed - just drop the files here!
 
 ## Where Images Appear
 

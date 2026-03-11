@@ -10,6 +10,7 @@ import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { JoinFlow } from '@/components/onboarding/JoinFlow'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Home() {
   const [isJoinFlowOpen, setIsJoinFlowOpen] = useState(false)
@@ -102,8 +103,22 @@ export default function Home() {
                 <TiltCard className="max-w-4xl mx-auto cursor-pointer group">
                   <div className="glass rounded-3xl overflow-hidden hover:border-[#DC143C]/50 transition-all duration-500">
                     <div className="aspect-[16/9] bg-gradient-to-br from-[#DC143C]/20 to-[#DAA520]/20 flex items-center justify-center relative">
-                      {/* Placeholder for artist image */}
-                      <div className="absolute inset-0 bg-[url('/images/goddess/goddess-preview.jpg')] bg-cover bg-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                      {/* Artist Preview Image */}
+                      <Image
+                        src="/images/goddess/goddess-preview.jpg"
+                        alt="GODDE$$ Preview"
+                        fill
+                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        sizes="(max-width: 1024px) 100vw, 80vw"
+                        onError={(e) => {
+                          const target = e.target as HTMLElement;
+                          target.style.display = 'none';
+                        }}
+                        onLoadingComplete={(image) => {
+                          image.classList.remove('opacity-0');
+                          image.classList.add('opacity-80');
+                        }}
+                      />
 
                       <div className="relative z-10 text-center p-12">
                         <h3 className="text-6xl md:text-8xl font-display font-black text-gradient-gold mb-4">

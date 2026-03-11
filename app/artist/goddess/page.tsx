@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { TiltCard } from '@/components/ui/TiltCard'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 
@@ -173,7 +174,6 @@ export default function GoddessPage() {
               >
                 <TiltCard>
                   <div className="relative overflow-hidden rounded-2xl group cursor-pointer">
-                    {/* Placeholder gradient - client will replace with actual images */}
                     <div
                       className={`
                         ${index === 0 ? 'aspect-[16/10]' : 'aspect-square'}
@@ -184,8 +184,26 @@ export default function GoddessPage() {
                         relative
                       `}
                     >
+                      {/* Actual Image */}
+                      <Image
+                        src={image.url}
+                        alt={image.alt}
+                        fill
+                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        sizes={index === 0 ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+                        onError={(e) => {
+                          // Handle missing images by showing the placeholder text
+                          const target = e.target as HTMLElement;
+                          target.style.display = 'none';
+                        }}
+                        onLoadingComplete={(image) => {
+                          image.classList.remove('opacity-0');
+                          image.classList.add('opacity-100');
+                        }}
+                      />
+
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all duration-500" />
-                      <p className="text-cream/60 text-lg font-display">
+                      <p className="text-cream/60 text-lg font-display text-center px-4 z-10 group-hover:opacity-0 transition-opacity duration-300">
                         {image.alt}
                       </p>
                     </div>

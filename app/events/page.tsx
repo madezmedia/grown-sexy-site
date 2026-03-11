@@ -6,6 +6,7 @@ import { TiltCard } from '@/components/ui/TiltCard'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Calendar, Clock, MapPin, Users, Trophy, Music, Wine, Heart, Sparkles } from 'lucide-react'
 
 const featuredEvent = {
@@ -154,8 +155,23 @@ export default function EventsPage() {
                 <div className="glass-crimson rounded-3xl overflow-hidden glow-gold border-2 border-[#DAA520]">
                   <div className="grid lg:grid-cols-2 gap-0">
                     {/* Image Side */}
-                    <div className="relative aspect-[4/3] lg:aspect-auto bg-gradient-to-br from-[#DAA520]/30 to-[#DC143C]/30">
-                      <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="relative aspect-[4/3] lg:aspect-auto bg-gradient-to-br from-[#DAA520]/30 to-[#DC143C]/30 flex items-center justify-center">
+                      <Image
+                        src={featuredEvent.image}
+                        alt={featuredEvent.title}
+                        fill
+                        className="object-cover opacity-0 transition-opacity duration-500"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        onError={(e) => {
+                          const target = e.target as HTMLElement;
+                          target.style.display = 'none';
+                        }}
+                        onLoadingComplete={(image) => {
+                          image.classList.remove('opacity-0');
+                          image.classList.add('opacity-100');
+                        }}
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center z-10 group-hover:opacity-0 transition-opacity duration-300">
                         <div className="text-center p-12">
                           <Trophy className="w-32 h-32 mx-auto mb-6 text-[#DAA520]" />
                           <p className="text-6xl font-display font-black text-gradient-gold">♠️</p>
@@ -250,10 +266,25 @@ export default function EventsPage() {
                 <motion.div key={event.id} variants={fadeInUp}>
                   <TiltCard>
                     <div className="glass rounded-2xl overflow-hidden h-full hover:glow-crimson transition-all duration-500 group">
-                      {/* Image/Icon Header */}
-                      <div className="relative aspect-[16/9] bg-gradient-to-br from-[#DC143C]/20 to-[#DAA520]/20 flex items-center justify-center">
-                        <event.icon className="w-24 h-24 text-cream/30 group-hover:text-cream/50 transition-colors duration-500" />
-                      </div>
+                    {/* Image/Icon Header */}
+                    <div className="relative aspect-[16/9] bg-gradient-to-br from-[#DC143C]/20 to-[#DAA520]/20 flex items-center justify-center">
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        fill
+                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        onError={(e) => {
+                          const target = e.target as HTMLElement;
+                          target.style.display = 'none';
+                        }}
+                        onLoadingComplete={(image) => {
+                          image.classList.remove('opacity-0');
+                          image.classList.add('opacity-100');
+                        }}
+                      />
+                      <event.icon className="w-24 h-24 text-cream/30 group-hover:text-cream/50 transition-colors duration-500 z-10 group-hover:opacity-0" />
+                    </div>
 
                       {/* Content */}
                       <div className="p-6">
