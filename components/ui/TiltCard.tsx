@@ -7,9 +7,10 @@ import { cn } from '@/lib/utils'
 interface TiltCardProps {
   children: React.ReactNode
   className?: string
+  intensity?: number
 }
 
-export function TiltCard({ children, className }: TiltCardProps) {
+export function TiltCard({ children, className, intensity = 8 }: TiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [rotateX, setRotateX] = useState(0)
   const [rotateY, setRotateY] = useState(0)
@@ -26,8 +27,8 @@ export function TiltCard({ children, className }: TiltCardProps) {
     const mouseX = e.clientX - centerX
     const mouseY = e.clientY - centerY
 
-    const rotateXValue = (mouseY / (rect.height / 2)) * -10
-    const rotateYValue = (mouseX / (rect.width / 2)) * 10
+    const rotateXValue = (mouseY / (rect.height / 2)) * -intensity
+    const rotateYValue = (mouseX / (rect.width / 2)) * intensity
 
     setRotateX(rotateXValue)
     setRotateY(rotateYValue)
@@ -41,7 +42,7 @@ export function TiltCard({ children, className }: TiltCardProps) {
   return (
     <motion.div
       ref={cardRef}
-      className={cn('relative transform-gpu', className)}
+      className={cn('relative', className)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={{
@@ -50,7 +51,7 @@ export function TiltCard({ children, className }: TiltCardProps) {
       }}
       transition={{
         type: 'spring',
-        stiffness: 300,
+        stiffness: 400,
         damping: 30,
       }}
       style={{
@@ -58,14 +59,7 @@ export function TiltCard({ children, className }: TiltCardProps) {
         perspective: '1000px',
       }}
     >
-      <div
-        className="relative w-full h-full"
-        style={{
-          transform: 'translateZ(50px)',
-        }}
-      >
-        {children}
-      </div>
+      {children}
     </motion.div>
   )
 }

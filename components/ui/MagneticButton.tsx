@@ -29,7 +29,7 @@ export function MagneticButton({
     const x = e.clientX - rect.left - rect.width / 2
     const y = e.clientY - rect.top - rect.height / 2
 
-    setPosition({ x: x * 0.3, y: y * 0.3 })
+    setPosition({ x: x * 0.15, y: y * 0.15 })
   }
 
   const handleMouseLeave = () => {
@@ -37,15 +37,15 @@ export function MagneticButton({
   }
 
   const variants = {
-    primary: 'bg-gradient-to-r from-[#DC143C] to-[#C41E3A] text-white hover:from-[#FF6B6B] hover:to-[#DC143C] glow-crimson',
-    secondary: 'bg-gradient-to-r from-[#DAA520] to-[#B8860B] text-black hover:from-[#FFD700] hover:to-[#DAA520] glow-gold',
-    outline: 'border-2 border-[#DC143C] text-[#DC143C] hover:bg-[#DC143C]/10',
+    primary: 'bg-gradient-to-r from-[#DC143C] to-[#C41E3A] text-white hover:shadow-[0_0_30px_rgba(220,20,60,0.4)]',
+    secondary: 'bg-gradient-to-r from-[#DAA520] to-[#B8860B] text-black hover:shadow-[0_0_30px_rgba(218,165,32,0.3)]',
+    outline: 'border-2 border-cream/30 text-cream hover:border-cream hover:bg-cream/5',
   }
 
   const sizes = {
     sm: 'px-6 py-2 text-sm',
     md: 'px-8 py-3 text-base',
-    lg: 'px-12 py-4 text-lg',
+    lg: 'px-10 py-4 text-lg',
   }
 
   return (
@@ -53,7 +53,7 @@ export function MagneticButton({
       ref={buttonRef}
       className={cn(
         'relative overflow-hidden rounded-full font-semibold transition-all duration-300',
-        'transform hover:scale-105 active:scale-95',
+        'hover:scale-105 active:scale-95',
         variants[variant],
         sizes[size],
         className
@@ -67,23 +67,11 @@ export function MagneticButton({
       }}
       transition={{
         type: 'spring',
-        stiffness: 300,
-        damping: 20,
+        stiffness: 400,
+        damping: 25,
       }}
     >
       <span className="relative z-10">{children}</span>
-
-      {/* Shimmer effect */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        initial={{ x: '-100%' }}
-        animate={{ x: '100%' }}
-        transition={{
-          repeat: Infinity,
-          duration: 3,
-          ease: 'linear',
-        }}
-      />
     </motion.button>
   )
 }
