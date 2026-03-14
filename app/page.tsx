@@ -35,7 +35,7 @@ export default function Home() {
         <motion.section
           ref={heroRef}
           className="relative min-h-screen flex items-center justify-center overflow-hidden"
-          style={{ opacity: heroOpacity, scale: heroScale }}
+          style={{ opacity: heroOpacity, scale: heroScale, position: 'relative' }}
         >
           <HeroVideo />
 

@@ -32,7 +32,7 @@ export function ParallaxSection({
   const y = useTransform(scrollYProgress, [0, 1], [0, 200 * speed * factor])
 
   return (
-    <section ref={ref} className={cn('relative overflow-hidden', className)}>
+    <section ref={ref} className={cn('relative overflow-hidden', className)} style={{ position: 'relative' }}>
       <motion.div
         className={cn('absolute inset-0 -z-10', bgClassName)}
         style={{ y }}
@@ -64,7 +64,7 @@ export function ParallaxImage({ src, alt, className, speed = 0.3 }: ParallaxImag
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1])
 
   return (
-    <motion.div ref={ref} className={cn('overflow-hidden', className)}>
+    <motion.div ref={ref} className={cn('relative overflow-hidden', className)}>
       <motion.img
         src={src}
         alt={alt}
@@ -98,7 +98,7 @@ export function ParallaxText({ children, className, speed = 0.2, direction = 'up
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={cn('relative', className)}
       style={isVertical ? { y: transform } : { x: transform }}
     >
       {children}
