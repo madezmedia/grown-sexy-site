@@ -201,21 +201,21 @@ export default function Home() {
                   icon: Calendar,
                   title: 'Exclusive Events',
                   description: 'From intimate wine tastings to vibrant dance parties, our events are crafted for meaningful connections.',
-                  image: '/images/events-preview.jpg',
+                  image: '/images/goddess/goddess-1.jpg',
                   accent: 'from-accent/30',
                 },
                 {
                   icon: Users,
                   title: 'Community',
                   description: 'Connect with like-minded individuals who value growth, authenticity, and living life fully.',
-                  image: '/images/community-preview.jpg',
+                  image: '/images/goddess/goddess-2.jpg',
                   accent: 'from-muted/40',
                 },
                 {
                   icon: Sparkles,
                   title: 'Wellness',
                   description: 'Health and vitality resources tailored for our evolving needs as we age gracefully.',
-                  image: '/images/wellness-preview.jpg',
+                  image: '/images/goddess/goddess-3.jpg',
                   accent: 'from-accent/20',
                 },
               ].map((feature, index) => (
@@ -227,10 +227,16 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  {/* Card Image Background */}
-                  <div className="aspect-[4/3] relative overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.accent} via-card to-card`} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-transparent" />
+{/* Card Image Background */}
+                                  <div className="aspect-[4/3] relative overflow-hidden">
+                                    <Image 
+                                      src={feature.image} 
+                                      alt={feature.title}
+                                      fill
+                                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.accent} via-card/60 to-card`} />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-transparent" />
                     
                     {/* Icon */}
                     <div className="absolute top-6 left-6">
@@ -288,8 +294,14 @@ export default function Home() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-card to-muted/30" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+                    <Image 
+                      src="/images/goddess/goddess-preview.jpg" 
+                      alt="GODDE$$ - Featured Artist"
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-transparent to-muted/20" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                     
                     {/* Play button overlay */}
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -516,10 +528,10 @@ export default function Home() {
 
             <div className="space-y-0">
               {[
-                { title: 'Monthly Spades Tournament', tag: 'Featured', date: 'Every Last Saturday', image: '/images/spades.jpg' },
-                { title: 'Wine Tastings', tag: 'Social', date: 'Bi-Weekly', image: '/images/wine.jpg' },
-                { title: 'Dance Parties', tag: 'Entertainment', date: 'Monthly', image: '/images/dance.jpg' },
-                { title: 'Wellness Retreats', tag: 'Health', date: 'Quarterly', image: '/images/wellness.jpg' },
+                { title: 'Monthly Spades Tournament', tag: 'Featured', date: 'Every Last Saturday', image: '/images/events/spades-tournament.jpg' },
+                { title: 'Wine Tastings', tag: 'Social', date: 'Bi-Weekly', image: '/images/events/wine.jpg' },
+                { title: 'Dance Parties', tag: 'Entertainment', date: 'Monthly', image: '/images/goddess/goddess-4.jpg' },
+                { title: 'Wellness Retreats', tag: 'Health', date: 'Quarterly', image: '/images/events/wellness.jpg' },
               ].map((event, index) => (
                 <motion.div
                   key={index}
@@ -531,10 +543,15 @@ export default function Home() {
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-center gap-8">
-                      {/* Event Preview Thumbnail */}
-                      <div className="hidden md:block w-16 h-16 rounded-2xl bg-card overflow-hidden flex-shrink-0">
-                        <div className="w-full h-full bg-gradient-to-br from-accent/20 to-muted/20" />
-                      </div>
+{/* Event Preview Thumbnail */}
+                                      <div className="hidden md:block w-16 h-16 rounded-2xl bg-card overflow-hidden flex-shrink-0 relative">
+                                        <Image 
+                                          src={event.image} 
+                                          alt={event.title}
+                                          fill
+                                          className="object-cover"
+                                        />
+                                      </div>
                       <div className="flex flex-col gap-2">
                         <span className="text-xs tracking-[0.2em] uppercase text-accent">
                           {event.tag}
@@ -557,8 +574,120 @@ export default function Home() {
           </motion.div>
         </motion.section>
 
+        {/* Gallery Section */}
+        <section className="py-24 md:py-32 px-6 bg-card relative overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+              <div>
+                <motion.span 
+                  className="text-xs tracking-[0.3em] uppercase text-accent mb-4 block"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                >
+                  Gallery
+                </motion.span>
+                <motion.h2 
+                  className="text-4xl md:text-5xl lg:text-6xl font-display"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                >
+                  Moments Captured
+                </motion.h2>
+              </div>
+              <Link href="/artist/goddess" className="group inline-flex items-center gap-3 px-6 py-3 border border-foreground/20 rounded-full text-sm tracking-wide hover:bg-foreground hover:text-background transition-all">
+                View Full Gallery
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+
+            {/* Masonry-style Gallery Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <motion.div 
+                className="col-span-2 row-span-2 relative aspect-square rounded-3xl overflow-hidden group"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <Image 
+                  src="/images/goddess/goddess-1.jpg" 
+                  alt="Gallery image 1"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+              
+              <motion.div 
+                className="relative aspect-square rounded-3xl overflow-hidden group"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                <Image 
+                  src="/images/goddess/goddess-2.jpg" 
+                  alt="Gallery image 2"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+              
+              <motion.div 
+                className="relative aspect-square rounded-3xl overflow-hidden group"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <Image 
+                  src="/images/goddess/goddess-3.jpg" 
+                  alt="Gallery image 3"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+              
+              <motion.div 
+                className="relative aspect-square rounded-3xl overflow-hidden group"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <Image 
+                  src="/images/goddess/goddess-4.jpg" 
+                  alt="Gallery image 4"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+              
+              <motion.div 
+                className="relative aspect-square rounded-3xl overflow-hidden group"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+              >
+                <Image 
+                  src="/images/goddess/goddess-5.jpg" 
+                  alt="Gallery image 5"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
-        <section className="py-32 md:py-48 px-6 relative overflow-hidden bg-card">
+        <section className="py-32 md:py-48 px-6 relative overflow-hidden bg-background">
           {/* Background gradient */}
           <div className="absolute inset-0">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-accent/10 via-transparent to-muted/10 rounded-full blur-3xl" />
