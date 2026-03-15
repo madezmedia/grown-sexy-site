@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -98,7 +97,6 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <SmoothScrollProvider>
-          <CustomCursor />
           {children}
         </SmoothScrollProvider>
       </body>

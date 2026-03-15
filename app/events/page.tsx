@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { TiltCard } from '@/components/ui/TiltCard'
-import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -87,10 +86,7 @@ const upcomingEvents = [
 
 export default function EventsPage() {
   return (
-    <>
-      <ScrollProgress />
-
-      <main className="min-h-screen bg-black text-cream">
+    <main className="min-h-screen bg-black text-cream">
         {/* Hero Section */}
         <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-[#1A0A0A] to-[#0A0000]">
@@ -378,7 +374,6 @@ export default function EventsPage() {
             </p>
           </div>
         </footer>
-      </main>
-    </>
+    </main>
   )
 }
