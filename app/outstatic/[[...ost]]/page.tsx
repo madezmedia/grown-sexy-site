@@ -8,5 +8,5 @@ export default async function Page({
   params: { ost?: string[] }
 }) {
   const ostData = await Outstatic()
-  return <OstClient ostData={ostData} params={params} />
+  return <OstClient ostData={ostData} params={{ ost: params.ost || [] }} />
 }
