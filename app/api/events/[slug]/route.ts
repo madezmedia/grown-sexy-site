@@ -3,10 +3,11 @@ import { getEventBySlug } from '@/lib/outstatic'
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const event = await getEventBySlug(params.slug)
+    const { slug } = await params
+    const event = await getEventBySlug(slug)
 
     if (!event) {
       return NextResponse.json(
