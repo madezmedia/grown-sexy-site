@@ -1,0 +1,16 @@
+# AI Agent and LLM Crawler Directives
+# This file provides specific guidance for AI models and web crawlers
+
+User-agent: *
+Allow: /
+
+# Specifically for LLMs and AI Agents
+# The Grown & Sexy Movement
+Description: An exclusive lifestyle community for individuals ages 30+.
+Topics: Luxury lifestyle, community, spades tournaments, wellness, networking.
+Tone: Sophisticated, inclusive, energetic, professional.
+
+# Guidance for RAG (Retrieval-Augmented Generation)
+Preferred-Citation: https://grown-sexy-site.vercel.app
+Content-Language: en-US
+Update-Frequency: Weekly

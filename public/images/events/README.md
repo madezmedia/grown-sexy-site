@@ -5,12 +5,18 @@ Place event images in this directory to populate the events page.
 ## Required Images
 
 Add these images to this folder:
-
 ### 1. spades-tournament.jpg
 **Description:** Monthly Spades Tournament
 **Used:** Featured event on the events page
+**Nanobana (Gemini 3 Pro Image) Prompt:**
+> "A luxurious, high-energy spades tournament at a sophisticated lounge. Close-up of players' hands holding a winning hand (Ace and King of Spades). Crystal glasses with amber liquid, elegant dark wood table, soft golden ambient lighting, atmospheric depth of field. High-end lifestyle photography, 4K, professional edit."
+
+### Spades Tournament Logo (Overlay)
+**Nanobana Prompt:**
+> "A minimalist vector logo for a 'Grown & Sexy Spades Tournament'. A sharp, bold spade icon with a crown on top. Gold and crimson color palette on a solid white background. Professional, high contrast, symmetrical. Render just the logo symbol, no text."
 
 ### 2. wine.jpg
+...
 **Description:** Wine & Conversation
 **Used:** Upcoming events grid
 
