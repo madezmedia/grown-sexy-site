@@ -42,7 +42,7 @@ export async function getEvents(): Promise<Event[]> {
       'highlights',
       'status',
       'content'
-    ]) as Event[]
+    ]) as unknown as Event[]
 
     // Filter for upcoming events only
     return events.filter((event: Event) => event.status === 'upcoming')
@@ -83,7 +83,7 @@ export async function getEventBySlug(slug: string): Promise<Event | null> {
       'content'
     ])
 
-    return event as Event
+    return event as unknown as Event
   } catch (error) {
     console.error(`Error fetching event with slug ${slug}:`, error)
     return null
@@ -134,7 +134,7 @@ export async function getArtists(): Promise<Artist[]> {
       'genre',
       'socialLinks',
       'featuredOnHomepage'
-    ]) as Artist[]
+    ]) as unknown as Artist[]
 
     return artists
   } catch (error) {
@@ -168,7 +168,7 @@ export async function getArtistBySlug(slug: string): Promise<Artist | null> {
       'featuredOnHomepage'
     ])
 
-    return artist as Artist
+    return artist as unknown as Artist
   } catch (error) {
     console.error(`Error fetching artist with slug ${slug}:`, error)
     return null
@@ -212,7 +212,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       'coverImage',
       'excerpt',
       'tags'
-    ]) as BlogPost[]
+    ]) as unknown as BlogPost[]
 
     return posts
   } catch (error) {
@@ -235,7 +235,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       'tags'
     ])
 
-    return post as BlogPost
+    return post as unknown as BlogPost
   } catch (error) {
     console.error(`Error fetching blog post with slug ${slug}:`, error)
     return null
