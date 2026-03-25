@@ -42,7 +42,7 @@ export async function getEvents(): Promise<Event[]> {
       'highlights',
       'status',
       'content'
-    ])
+    ]) as Event[]
 
     // Filter for upcoming events only
     return events.filter((event: Event) => event.status === 'upcoming')
@@ -134,9 +134,9 @@ export async function getArtists(): Promise<Artist[]> {
       'genre',
       'socialLinks',
       'featuredOnHomepage'
-    ])
+    ]) as Artist[]
 
-    return artists as Artist[]
+    return artists
   } catch (error) {
     console.error('Error fetching artists:', error)
     return []
@@ -212,9 +212,9 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       'coverImage',
       'excerpt',
       'tags'
-    ])
+    ]) as BlogPost[]
 
-    return posts as BlogPost[]
+    return posts
   } catch (error) {
     console.error('Error fetching blog posts:', error)
     return []
