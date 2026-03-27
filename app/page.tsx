@@ -5,10 +5,12 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { JoinFlow } from '@/components/onboarding/JoinFlow'
 import { HeroVideo } from '@/components/hero/HeroVideo'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ArrowRight, ArrowUpRight, Play, Calendar, Users, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 
 export default function Home() {
+  const pathname = usePathname()
   const [isJoinFlowOpen, setIsJoinFlowOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLElement>(null)
@@ -51,7 +53,7 @@ export default function Home() {
 
   return (
     <>
-      <JoinFlow isOpen={isJoinFlowOpen} onClose={() => setIsJoinFlowOpen(false)} />
+      {pathname === '/' && <JoinFlow isOpen={isJoinFlowOpen} onClose={() => setIsJoinFlowOpen(false)} />}
 
       <div ref={containerRef} className="min-h-screen bg-background text-foreground overflow-x-hidden">
         
