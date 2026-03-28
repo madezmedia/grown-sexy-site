@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Artists",
+    "slug": "artists",
+    "path": "outstatic/content/artists",
+    "children": []
+  },
+  {
+    "title": "Blog",
+    "slug": "blog",
+    "path": "outstatic/content/blog",
+    "children": []
+  },
+  {
+    "title": "Events",
+    "slug": "events",
+    "path": "outstatic/content/events",
+    "children": []
+  }
+]
