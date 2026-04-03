@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Play, Music, Calendar, Disc3, ArrowRight } from 'lucide-react'
+import { Play, Music as MusicIcon, Calendar, Disc3, ArrowRight } from 'lucide-react'
 import type { Music } from '@/lib/outstatic'
 
 export default function MusicPage() {
@@ -69,7 +69,7 @@ export default function MusicPage() {
             className="flex items-center gap-4 mb-6"
           >
             <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center">
-              <Music className="w-8 h-8 text-accent" />
+              <MusicIcon className="w-8 h-8 text-accent" />
             </div>
             <div>
               <span className="text-xs tracking-[0.3em] uppercase text-accent">
@@ -120,7 +120,7 @@ export default function MusicPage() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/20 to-muted/20">
-                          <Music className="w-16 h-16 text-foreground/20" />
+                          <MusicIcon className="w-16 h-16 text-foreground/20" />
                         </div>
                       )}
                       

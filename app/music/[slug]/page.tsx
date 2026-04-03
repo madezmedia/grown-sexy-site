@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, Play, Music } from 'lucide-react'
+import { ArrowLeft, Play, Music as MusicIcon } from 'lucide-react'
 import { getMusicBySlug, getAllMusicSlugs } from '@/lib/outstatic'
 import type { Music } from '@/lib/outstatic'
 
@@ -67,7 +67,7 @@ export default async function MusicTrackPage({ params }: PageProps) {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/20 to-muted/20">
-                  <Music className="w-32 h-32 text-foreground/20" />
+                  <MusicIcon className="w-32 h-32 text-foreground/20" />
                 </div>
               )}
             </div>
