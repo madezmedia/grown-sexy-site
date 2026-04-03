@@ -16,5 +16,17 @@
     "slug": "events",
     "path": "outstatic/content/events",
     "children": []
+  },
+  {
+    "title": "Music",
+    "slug": "music",
+    "path": "outstatic/content/music",
+    "children": []
+  },
+  {
+    "title": "Videos",
+    "slug": "videos",
+    "path": "outstatic/content/videos",
+    "children": []
   }
 ]

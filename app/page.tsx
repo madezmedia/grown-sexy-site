@@ -72,10 +72,16 @@ export default function Home() {
               <Link href="/events" className="text-sm tracking-wide text-foreground/60 hover:text-foreground transition-colors">
                 Events
               </Link>
+              <Link href="/music" className="text-sm tracking-wide text-foreground/60 hover:text-foreground transition-colors">
+                Music
+              </Link>
+              <Link href="/videos" className="text-sm tracking-wide text-foreground/60 hover:text-foreground transition-colors">
+                Videos
+              </Link>
               <Link href="/artist/goddess" className="text-sm tracking-wide text-foreground/60 hover:text-foreground transition-colors">
                 Artists
               </Link>
-              <button 
+              <button
                 onClick={() => setIsJoinFlowOpen(true)}
                 className="text-sm tracking-wide px-5 py-2.5 border border-foreground/20 rounded-full hover:bg-foreground hover:text-background transition-all"
               >

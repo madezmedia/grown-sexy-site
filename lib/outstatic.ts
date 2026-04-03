@@ -260,3 +260,149 @@ export async function getBlogPostsByCategory(category: string): Promise<BlogPost
     return []
   }
 }
+
+// ============================================
+// MUSIC
+// ============================================
+
+export interface Music {
+  slug: string
+  title: string
+  artist: string
+  content: string
+  publishedAt: string
+  coverImage?: string
+  audioUrl?: string
+  spotifyUrl?: string
+  appleMusicUrl?: string
+  genre?: string
+  releaseDate?: string
+  featured?: boolean
+}
+
+export async function getMusic(): Promise<Music[]> {
+  try {
+    const tracks = getDocuments('music', [
+      'title',
+      'slug',
+      'artist',
+      'content',
+      'publishedAt',
+      'coverImage',
+      'audioUrl',
+      'spotifyUrl',
+      'appleMusicUrl',
+      'genre',
+      'releaseDate',
+      'featured'
+    ]) as unknown as Music[]
+
+    return tracks
+  } catch (error) {
+    console.error('Error fetching music:', error)
+    return []
+  }
+}
+
+export async function getMusicBySlug(slug: string): Promise<Music | null> {
+  try {
+    const track = getDocumentBySlug('music', slug, [
+      'title',
+      'slug',
+      'artist',
+      'content',
+      'publishedAt',
+      'coverImage',
+      'audioUrl',
+      'spotifyUrl',
+      'appleMusicUrl',
+      'genre',
+      'releaseDate',
+      'featured'
+    ])
+
+    return track as unknown as Music
+  } catch (error) {
+    console.error(`Error fetching music with slug ${slug}:`, error)
+    return null
+  }
+}
+
+export async function getAllMusicSlugs(): Promise<string[]> {
+  try {
+    return getDocumentSlugs('music')
+  } catch (error) {
+    console.error('Error fetching music slugs:', error)
+    return []
+  }
+}
+
+// ============================================
+// VIDEOS
+// ============================================
+
+export interface Video {
+  slug: string
+  title: string
+  content: string
+  publishedAt: string
+  coverImage?: string
+  videoUrl?: string
+  youtubeId?: string
+  category?: string
+  duration?: string
+  featured?: boolean
+}
+
+export async function getVideos(): Promise<Video[]> {
+  try {
+    const videos = getDocuments('videos', [
+      'title',
+      'slug',
+      'content',
+      'publishedAt',
+      'coverImage',
+      'videoUrl',
+      'youtubeId',
+      'category',
+      'duration',
+      'featured'
+    ]) as unknown as Video[]
+
+    return videos
+  } catch (error) {
+    console.error('Error fetching videos:', error)
+    return []
+  }
+}
+
+export async function getVideoBySlug(slug: string): Promise<Video | null> {
+  try {
+    const video = getDocumentBySlug('videos', slug, [
+      'title',
+      'slug',
+      'content',
+      'publishedAt',
+      'coverImage',
+      'videoUrl',
+      'youtubeId',
+      'category',
+      'duration',
+      'featured'
+    ])
+
+    return video as unknown as Video
+  } catch (error) {
+    console.error(`Error fetching video with slug ${slug}:`, error)
+    return null
+  }
+}
+
+export async function getAllVideoSlugs(): Promise<string[]> {
+  try {
+    return getDocumentSlugs('videos')
+  } catch (error) {
+    console.error('Error fetching video slugs:', error)
+    return []
+  }
+}
