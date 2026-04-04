@@ -35,9 +35,16 @@ async function getArtistSlugs(): Promise<string[]> {
 
 // Parse markdown file
 function parseMarkdownFile(slug: string): ArtistDoc | null {
-  const filePath = path.join(process.cwd(), "outstatic", "content", "artists", `${slug}.md`);
-  
-  if (!fs.existsSync(filePath)) {
+  // Try multiple path approaches for different environments
+  const possiblePaths = [
+    path.join(process.cwd(), "outstatic", "content", "artists", `${slug}.md`),
+    path.join(__dirname, "../../../../outstatic", "content", "artists", `${slug}.md`),
+    path.join(__dirname, "../../../../../outstatic", "content", "artists", `${slug}.md`),
+  ];
+
+  let filePath = possiblePaths.find(p => fs.existsSync(p));
+
+  if (!filePath) {
     return null;
   }
 
