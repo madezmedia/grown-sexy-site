@@ -18,7 +18,7 @@ interface ArtistData {
   slug: string;
   stageName: string;
   coverImage: string;
-  gallery: GalleryImage[];
+  gallery: string[] | GalleryImage[];
   genre: string[];
   socialLinks: {
     instagram?: string;
@@ -44,8 +44,13 @@ export function ArtistPage({ artist }: ArtistPageProps) {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  const images = artist.gallery.length > 0 
-    ? artist.gallery 
+  // Normalize gallery to GalleryImage[] format
+  const images: GalleryImage[] = artist.gallery.length > 0
+    ? artist.gallery.map((img, index) => 
+        typeof img === 'string' 
+          ? { url: img, alt: `${artist.stageName} image ${index + 1}` }
+          : img
+      )
     : [
         { url: `/images/artists/${artist.slug}-1.jpg`, alt: `${artist.stageName} promotional` },
         { url: `/images/artists/${artist.slug}-2.jpg`, alt: `${artist.stageName} in performance` },
