@@ -1,12 +1,10 @@
 "use client"
 
-import { motion } from 'framer-motion'
-import { MagneticButton } from '@/components/ui/MagneticButton'
-import { TiltCard } from '@/components/ui/TiltCard'
-import { fadeInUp, staggerContainer } from '@/lib/animations'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Calendar, Clock, MapPin, Users, Trophy, Music, Wine, Heart, Sparkles } from 'lucide-react'
+import { useRef } from 'react'
+import { Calendar, Clock, MapPin, Users, Trophy, Music, Wine, Heart, Sparkles, ArrowRight } from 'lucide-react'
 
 const featuredEvent = {
   id: 'spades-tournament',
@@ -35,7 +33,7 @@ const upcomingEvents = [
     title: 'Wine & Conversation',
     date: 'March 15, 2026',
     time: '6:00 PM',
-    location: 'Vintner\'s Room',
+    location: "Vintner's Room",
     price: '$45',
     category: 'Wine',
     icon: Wine,
@@ -45,7 +43,7 @@ const upcomingEvents = [
   },
   {
     id: 'line-stepping',
-    title: 'Line Steppin\' Night',
+    title: "Line Steppin' Night",
     date: 'March 22, 2026',
     time: '8:00 PM',
     location: 'Grand Ballroom',
@@ -85,295 +83,420 @@ const upcomingEvents = [
 ]
 
 export default function EventsPage() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  })
+
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+
   return (
-    <main className="min-h-screen bg-black text-cream">
-        {/* Hero Section */}
-        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-black via-[#1A0A0A] to-[#0A0000]">
-            <motion.div
-              className="absolute inset-0"
-              style={{
-                background: 'radial-gradient(circle at 50% 50%, rgba(220, 20, 60, 0.2) 0%, transparent 70%)',
-              }}
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
+    <div ref={containerRef} className="min-h-screen bg-background text-foreground">
+      {/* Navigation */}
+      <motion.nav
+        className="fixed top-0 left-0 right-0 z-50 px-6 py-6 backdrop-blur-md bg-background/30"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <Link href="/" className="text-sm tracking-[0.2em] uppercase font-medium">
+            Grown & Sexy
+          </Link>
+          <div className="hidden md:flex items-center gap-12">
+            <Link href="/events" className="text-sm tracking-wide text-foreground">
+              Events
+            </Link>
+            <Link href="/music" className="text-sm tracking-wide text-foreground/60 hover:text-foreground transition-colors">
+              Music
+            </Link>
+            <Link href="/videos" className="text-sm tracking-wide text-foreground/60 hover:text-foreground transition-colors">
+              Videos
+            </Link>
+            <Link href="/artist/goddess" className="text-sm tracking-wide text-foreground/60 hover:text-foreground transition-colors">
+              Artists
+            </Link>
           </div>
+        </div>
+      </motion.nav>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-            >
-              <h1 className="text-6xl md:text-8xl font-display font-black text-gradient-crimson mb-6">
-                Upcoming Events
-              </h1>
-              <p className="text-xl md:text-2xl text-cream/80 max-w-3xl mx-auto leading-relaxed mb-8">
-                Curated experiences for grown folks who know how to have a good time
-              </p>
-
-              <Link href="/#join">
-                <MagneticButton variant="primary" size="lg">
-                  Become a Member
-                </MagneticButton>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Featured Event - Spades Tournament */}
-        <section className="py-32 px-6 bg-[#0A0A0A]">
+      {/* Hero Section */}
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-24">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-accent/10 via-background to-muted/10"
+          style={{ y: heroY }}
+        >
           <motion.div
-            className="max-w-7xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div className="text-center mb-16" variants={fadeInUp}>
-              <Trophy className="w-16 h-16 mx-auto mb-6 text-[#DAA520]" />
-              <h2 className="text-5xl md:text-7xl font-display font-bold text-gradient-gold mb-4">
-                Featured Event
-              </h2>
-              <p className="text-xl text-cream/70">Don&apos;t miss our signature monthly tournament</p>
-            </motion.div>
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(circle at 50% 50%, hsl(var(--accent) / 0.15) 0%, transparent 70%)',
+            }}
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        </motion.div>
 
-            <motion.div variants={fadeInUp}>
-              <TiltCard>
-                <div className="glass-crimson rounded-3xl overflow-hidden glow-gold border-2 border-[#DAA520]">
-                  <div className="grid lg:grid-cols-2 gap-0">
-                    {/* Image Side */}
-                    <div className="relative aspect-[4/3] lg:aspect-auto bg-gradient-to-br from-[#DAA520]/30 to-[#DC143C]/30 flex items-center justify-center">
-                      <Image
-                        src={featuredEvent.image}
-                        alt={featuredEvent.title}
-                        fill
-                        className="object-cover opacity-0 transition-opacity duration-500"
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        onError={(e) => {
-                          const target = e.target as HTMLElement;
-                          target.style.display = 'none';
-                        }}
-                        onLoadingComplete={(image) => {
-                          image.classList.remove('opacity-0');
-                          image.classList.add('opacity-100');
-                        }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center z-10 group-hover:opacity-0 transition-opacity duration-300">
-                        <div className="text-center p-12">
-                          <Trophy className="w-32 h-32 mx-auto mb-6 text-[#DAA520]" />
-                          <p className="text-6xl font-display font-black text-gradient-gold">♠️</p>
-                        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            <span className="text-xs tracking-[0.3em] uppercase text-accent mb-6 block">
+              What We Offer
+            </span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display mb-6">
+              Upcoming Events
+            </h1>
+            <p className="text-lg md:text-xl text-foreground/60 max-w-3xl mx-auto leading-relaxed mb-8">
+              Curated experiences for grown folks who know how to have a good time
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Featured Event - Spades Tournament */}
+      <section className="py-24 md:py-32 px-6 bg-card">
+        <motion.div
+          className="max-w-7xl mx-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+          }}
+        >
+          <motion.div
+            className="text-center mb-16"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Trophy className="w-12 h-12 mx-auto mb-6 text-accent" />
+            <span className="text-xs tracking-[0.3em] uppercase text-accent mb-4 block">
+              Don't Miss
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display">
+              Featured Event
+            </h2>
+          </motion.div>
+
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 40 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <div className="rounded-3xl overflow-hidden border border-accent/30 bg-background">
+              <div className="grid lg:grid-cols-2 gap-0">
+                {/* Image Side */}
+                <div className="relative aspect-[4/3] lg:aspect-auto min-h-[400px]">
+                  <Image
+                    src={featuredEvent.image}
+                    alt={featuredEvent.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-transparent to-muted/30" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background lg:block hidden" />
+                </div>
+
+                {/* Content Side */}
+                <div className="p-8 md:p-12">
+                  <span className="inline-block px-4 py-1.5 bg-accent/10 text-accent rounded-full text-sm font-medium mb-6">
+                    🏆 Monthly Tournament
+                  </span>
+
+                  <h3 className="text-3xl md:text-4xl font-display mb-2">
+                    {featuredEvent.title}
+                  </h3>
+                  <p className="text-xl text-foreground/70 mb-8">{featuredEvent.subtitle}</p>
+
+                  <div className="space-y-3 mb-8">
+                    <div className="flex items-center gap-3 text-foreground/60">
+                      <Calendar className="w-5 h-5 text-accent" />
+                      <span>{featuredEvent.date}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-foreground/60">
+                      <Clock className="w-5 h-5 text-accent" />
+                      <span>{featuredEvent.time}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-foreground/60">
+                      <MapPin className="w-5 h-5 text-accent" />
+                      <span>{featuredEvent.location}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-foreground/60">
+                      <Trophy className="w-5 h-5 text-accent" />
+                      <span className="font-medium text-foreground">{featuredEvent.prizePool}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-foreground/60 leading-relaxed mb-8">
+                    {featuredEvent.description}
+                  </p>
+
+                  <div className="mb-8">
+                    <h4 className="text-sm font-medium text-foreground/50 uppercase tracking-wide mb-4">
+                      What&apos;s Included:
+                    </h4>
+                    <ul className="grid grid-cols-2 gap-2">
+                      {featuredEvent.highlights.map((highlight, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-foreground/60">
+                          <span className="text-accent mt-0.5">✓</span>
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button className="flex-1 px-6 py-3 bg-foreground text-background rounded-full text-sm tracking-wide hover:scale-105 transition-transform">
+                      Register Now - {featuredEvent.price}
+                    </button>
+                    <button className="px-6 py-3 border border-foreground/20 rounded-full text-sm tracking-wide hover:border-foreground/60 transition-colors">
+                      Learn More
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Upcoming Events Grid */}
+      <section className="py-24 md:py-32 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-card via-background to-card" />
+
+        <motion.div
+          className="relative z-10 max-w-7xl mx-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+          }}
+        >
+          <motion.div
+            className="text-center mb-16"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <span className="text-xs tracking-[0.3em] uppercase text-accent mb-4 block">
+              Calendar
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display">
+              More Events
+            </h2>
+            <p className="text-lg text-foreground/50 mt-4 max-w-2xl mx-auto">
+              Something special happening every week
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {upcomingEvents.map((event, index) => (
+              <motion.div
+                key={event.id}
+                variants={{
+                  hidden: { opacity: 0, y: 40 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                className="group"
+              >
+                <div className="rounded-3xl overflow-hidden border border-foreground/5 hover:border-accent/30 transition-all duration-500 bg-card h-full">
+                  {/* Image Header */}
+                  <div className="relative aspect-[16/9]">
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 -mt-20 relative">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-xs font-medium">
+                        {event.category}
+                      </span>
+                      <span className="text-sm text-foreground/50 flex items-center gap-1">
+                        <Users className="w-4 h-4" />
+                        {event.spots} spots left
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl font-display mb-3">{event.title}</h3>
+
+                    <p className="text-foreground/50 mb-6 leading-relaxed">
+                      {event.description}
+                    </p>
+
+                    <div className="space-y-2 mb-6 text-sm">
+                      <div className="flex items-center gap-2 text-foreground/50">
+                        <Calendar className="w-4 h-4" />
+                        <span>{event.date}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-foreground/50">
+                        <Clock className="w-4 h-4" />
+                        <span>{event.time}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-foreground/50">
+                        <MapPin className="w-4 h-4" />
+                        <span>{event.location}</span>
                       </div>
                     </div>
 
-                    {/* Content Side */}
-                    <div className="p-12">
-                      <span className="inline-block px-4 py-1 bg-gold-gradient rounded-full text-black text-sm font-semibold mb-6">
-                        🏆 Monthly Tournament
-                      </span>
-
-                      <h3 className="text-4xl md:text-5xl font-display font-bold text-gradient-gold mb-4">
-                        {featuredEvent.title}
-                      </h3>
-                      <p className="text-2xl text-cream/90 mb-8">{featuredEvent.subtitle}</p>
-
-                      <div className="space-y-4 mb-8">
-                        <div className="flex items-center gap-3 text-cream/80">
-                          <Calendar className="w-5 h-5 text-[#DAA520]" />
-                          <span className="text-lg">{featuredEvent.date}</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-cream/80">
-                          <Clock className="w-5 h-5 text-[#DAA520]" />
-                          <span className="text-lg">{featuredEvent.time}</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-cream/80">
-                          <MapPin className="w-5 h-5 text-[#DAA520]" />
-                          <span className="text-lg">{featuredEvent.location}</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-cream/80">
-                          <Trophy className="w-5 h-5 text-[#DAA520]" />
-                          <span className="text-lg font-semibold">{featuredEvent.prizePool}</span>
-                        </div>
-                      </div>
-
-                      <p className="text-cream/80 leading-relaxed mb-8">
-                        {featuredEvent.description}
-                      </p>
-
-                      <div className="mb-8">
-                        <h4 className="text-lg font-semibold text-[#DAA520] mb-4">What's Included:</h4>
-                        <ul className="grid grid-cols-2 gap-3">
-                          {featuredEvent.highlights.map((highlight, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-cream/70">
-                              <span className="text-[#DAA520] mt-1">✓</span>
-                              <span>{highlight}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <MagneticButton variant="secondary" size="lg" className="flex-1">
-                          Register Now - {featuredEvent.price}
-                        </MagneticButton>
-                        <MagneticButton variant="outline" size="lg">
-                          Learn More
-                        </MagneticButton>
-                      </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-display text-accent">{event.price}</span>
+                      <button className="group/btn flex items-center gap-2 text-sm text-foreground/60 hover:text-foreground transition-colors">
+                        Reserve Spot
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                      </button>
                     </div>
                   </div>
                 </div>
-              </TiltCard>
-            </motion.div>
-          </motion.div>
-        </section>
-
-        {/* Upcoming Events Grid */}
-        <section className="py-32 px-6 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-black to-[#0A0A0A]" />
-
-          <motion.div
-            className="relative z-10 max-w-7xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div className="text-center mb-16" variants={fadeInUp}>
-              <h2 className="text-5xl md:text-7xl font-display font-bold text-gradient-crimson mb-6">
-                More Events
-              </h2>
-              <p className="text-xl text-cream/70 max-w-2xl mx-auto">
-                Something special happening every week
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {upcomingEvents.map((event, index) => (
-                <motion.div key={event.id} variants={fadeInUp}>
-                  <TiltCard>
-                    <div className="glass rounded-2xl overflow-hidden h-full hover:glow-crimson transition-all duration-500 group">
-                    {/* Image/Icon Header */}
-                    <div className="relative aspect-[16/9] bg-gradient-to-br from-[#DC143C]/20 to-[#DAA520]/20 flex items-center justify-center">
-                      <Image
-                        src={event.image}
-                        alt={event.title}
-                        fill
-                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        onError={(e) => {
-                          const target = e.target as HTMLElement;
-                          target.style.display = 'none';
-                        }}
-                        onLoadingComplete={(image) => {
-                          image.classList.remove('opacity-0');
-                          image.classList.add('opacity-100');
-                        }}
-                      />
-                      <event.icon className="w-24 h-24 text-cream/30 group-hover:text-cream/50 transition-colors duration-500 z-10 group-hover:opacity-0" />
-                    </div>
-
-                      {/* Content */}
-                      <div className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="px-3 py-1 bg-crimson-gradient rounded-full text-white text-xs font-semibold">
-                            {event.category}
-                          </span>
-                          <span className="text-sm text-cream/60 flex items-center gap-1">
-                            <Users className="w-4 h-4" />
-                            {event.spots} spots left
-                          </span>
-                        </div>
-
-                        <h3 className="text-2xl font-display font-bold text-gradient-gold mb-3">
-                          {event.title}
-                        </h3>
-
-                        <p className="text-cream/70 mb-6 leading-relaxed">
-                          {event.description}
-                        </p>
-
-                        <div className="space-y-2 mb-6 text-sm">
-                          <div className="flex items-center gap-2 text-cream/60">
-                            <Calendar className="w-4 h-4" />
-                            <span>{event.date}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-cream/60">
-                            <Clock className="w-4 h-4" />
-                            <span>{event.time}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-cream/60">
-                            <MapPin className="w-4 h-4" />
-                            <span>{event.location}</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-[#DAA520]">{event.price}</span>
-                          <MagneticButton variant="primary" size="sm">
-                            Reserve Spot
-                          </MagneticButton>
-                        </div>
-                      </div>
-                    </div>
-                  </TiltCard>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-32 px-6 bg-gradient-to-b from-[#0A0A0A] to-black">
-          <motion.div
-            className="max-w-4xl mx-auto text-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2
-              className="text-5xl md:text-7xl font-display font-bold text-gradient-crimson mb-8"
-              variants={fadeInUp}
-            >
-              Ready to Join Us?
-            </motion.h2>
-            <motion.p className="text-2xl text-cream/80 mb-12 leading-relaxed" variants={fadeInUp}>
-              Become a member to get exclusive access to all our events, early registration, and special member pricing.
-            </motion.p>
-            <motion.div className="flex flex-col sm:flex-row gap-6 justify-center" variants={fadeInUp}>
-              <Link href="/#join">
-                <MagneticButton variant="primary" size="lg">
-                  Become a Member
-                </MagneticButton>
-              </Link>
-              <Link href="/">
-                <MagneticButton variant="outline" size="lg">
-                  ← Back to Home
-                </MagneticButton>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </section>
-
-        {/* Footer */}
-        <footer className="py-12 px-6 border-t border-[#DC143C]/20">
-          <div className="max-w-7xl mx-auto text-center">
-            <p className="text-xl font-display text-cream/60 mb-2">The Grown & Sexy Movement</p>
-            <p className="text-cream/40">
-              Creating unforgettable experiences for our community
-            </p>
+              </motion.div>
+            ))}
           </div>
-        </footer>
-    </main>
+        </motion.div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-32 md:py-48 px-6 relative overflow-hidden bg-card">
+        {/* Background gradient */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-accent/10 via-transparent to-muted/10 rounded-full blur-3xl" />
+        </div>
+
+        <motion.div
+          className="relative z-10 max-w-4xl mx-auto text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+          }}
+        >
+          <motion.span
+            className="text-xs tracking-[0.3em] uppercase text-accent mb-8 block"
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+          >
+            Join Us
+          </motion.span>
+          <motion.h2
+            className="text-4xl md:text-6xl font-display mb-8 leading-tight"
+            variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
+          >
+            Ready to Join Us?
+          </motion.h2>
+          <motion.p
+            className="text-lg md:text-xl text-foreground/60 mb-12 max-w-2xl mx-auto leading-relaxed"
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          >
+            Become a member to get exclusive access to all our events, early registration, and
+            special member pricing.
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          >
+            <Link
+              href="/#join"
+              className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-foreground text-background rounded-full text-base tracking-wide hover:scale-105 transition-transform"
+            >
+              Become a Member
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-3 px-10 py-5 border border-foreground/20 rounded-full text-base tracking-wide hover:bg-foreground/5 transition-colors"
+            >
+              Back to Home
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-16 md:py-24 px-6 border-t border-foreground/10 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-12 mb-16">
+            <div className="md:col-span-2">
+              <span className="text-sm tracking-[0.2em] uppercase font-medium mb-6 block">
+                Grown & Sexy
+              </span>
+              <p className="text-foreground/50 leading-relaxed max-w-md mb-8">
+                Embracing age. Celebrating individuality. Living our best lives.
+                Join a community that understands the beauty of experience.
+              </p>
+            </div>
+            <div>
+              <span className="text-xs tracking-[0.2em] uppercase text-foreground/40 mb-6 block">
+                Navigate
+              </span>
+              <div className="space-y-4">
+                <Link href="/events" className="block text-sm text-foreground/60 hover:text-foreground transition-colors">
+                  Events
+                </Link>
+                <Link href="/artist/goddess" className="block text-sm text-foreground/60 hover:text-foreground transition-colors">
+                  Artists
+                </Link>
+                <Link href="/music" className="block text-sm text-foreground/60 hover:text-foreground transition-colors">
+                  Music
+                </Link>
+              </div>
+            </div>
+            <div>
+              <span className="text-xs tracking-[0.2em] uppercase text-foreground/40 mb-6 block">
+                Connect
+              </span>
+              <div className="space-y-4">
+                <a href="#" className="block text-sm text-foreground/60 hover:text-foreground transition-colors">
+                  Instagram
+                </a>
+                <a href="#" className="block text-sm text-foreground/60 hover:text-foreground transition-colors">
+                  Facebook
+                </a>
+                <a href="#" className="block text-sm text-foreground/60 hover:text-foreground transition-colors">
+                  Twitter
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <span className="text-xs text-foreground/40">
+              © 2026 Grown & Sexy. All rights reserved.
+            </span>
+            <div className="flex gap-6">
+              <Link href="#" className="text-xs text-foreground/40 hover:text-foreground/60 transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="#" className="text-xs text-foreground/40 hover:text-foreground/60 transition-colors">
+                Terms of Service
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   )
 }
