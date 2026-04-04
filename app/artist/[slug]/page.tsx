@@ -26,25 +26,30 @@ interface ArtistDoc {
   content: string;
 }
 
-// Get all artist slugs
-async function getArtistSlugs(): Promise<string[]> {
-  const artistsPath = path.join(process.cwd(), "outstatic", "content", "artists");
-  const files = fs.readdirSync(artistsPath);
-  return files.filter((file) => file.endsWith(".md")).map((file) => file.replace(".md", ""));
-}
-
-// Parse markdown file
+// Parse markdown file with multiple path attempts
 function parseMarkdownFile(slug: string): ArtistDoc | null {
-  // Try multiple path approaches for different environments
   const possiblePaths = [
     path.join(process.cwd(), "outstatic", "content", "artists", `${slug}.md`),
-    path.join(__dirname, "../../../../outstatic", "content", "artists", `${slug}.md`),
-    path.join(__dirname, "../../../../../outstatic", "content", "artists", `${slug}.md`),
+    path.resolve("./outstatic/content/artists", `${slug}.md`),
+    path.join(__dirname, "../../../../outstatic/content/artists", `${slug}.md`),
+    path.join(__dirname, "../../../../../outstatic/content/artists", `${slug}.md`),
   ];
 
-  let filePath = possiblePaths.find(p => fs.existsSync(p));
+  let filePath: string | undefined;
+  for (const p of possiblePaths) {
+    try {
+      if (fs.existsSync(p)) {
+        filePath = p;
+        break;
+      }
+    } catch {
+      // Continue to next path
+    }
+  }
 
   if (!filePath) {
+    console.error(`Artist file not found for slug: ${slug}`);
+    console.error('Tried paths:', possiblePaths);
     return null;
   }
 
@@ -98,15 +103,64 @@ function parseMarkdownFile(slug: string): ArtistDoc | null {
   };
 }
 
+// Get all artist data at build time
+function getAllArtists(): Map<string, ArtistDoc> {
+  const artists = new Map<string, ArtistDoc>();
+  
+  const possibleDirPaths = [
+    path.join(process.cwd(), "outstatic", "content", "artists"),
+    path.resolve("./outstatic/content/artists"),
+  ];
+
+  let artistsPath: string | undefined;
+  for (const p of possibleDirPaths) {
+    try {
+      if (fs.existsSync(p) && fs.statSync(p).isDirectory()) {
+        artistsPath = p;
+        break;
+      }
+    } catch {
+      // Continue to next path
+    }
+  }
+
+  if (!artistsPath) {
+    console.error('Artists directory not found');
+    return artists;
+  }
+
+  const files = fs.readdirSync(artistsPath).filter(f => f.endsWith('.md'));
+  
+  for (const file of files) {
+    const slug = file.replace('.md', '');
+    const artist = parseMarkdownFile(slug);
+    if (artist) {
+      artists.set(slug, artist);
+    }
+  }
+
+  return artists;
+}
+
+// Cache artists at module level for build time
+let cachedArtists: Map<string, ArtistDoc> | null = null;
+
+function getArtists(): Map<string, ArtistDoc> {
+  if (!cachedArtists) {
+    cachedArtists = getAllArtists();
+  }
+  return cachedArtists;
+}
+
 // Generate static params for all artists
 export async function generateStaticParams() {
-  const slugs = await getArtistSlugs();
-  return slugs.map((slug) => ({ slug }));
+  const artists = getArtists();
+  return Array.from(artists.keys()).map((slug) => ({ slug }));
 }
 
 // Generate metadata for each artist
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const artist = parseMarkdownFile(params.slug);
+  const artist = getArtists().get(params.slug);
   
   if (!artist) {
     return {
@@ -126,7 +180,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function ArtistPageRoute({ params }: { params: { slug: string } }) {
-  const artist = parseMarkdownFile(params.slug);
+  const artist = getArtists().get(params.slug);
 
   if (!artist) {
     notFound();
