@@ -608,7 +608,7 @@ export default function Home() {
                   Moments Captured
                 </motion.h2>
               </div>
-              <Link href="/artist/goddess" className="group inline-flex items-center gap-3 px-6 py-3 border border-foreground/20 rounded-full text-sm tracking-wide hover:bg-foreground hover:text-background transition-all">
+              <Link href="/gallery" className="group inline-flex items-center gap-3 px-6 py-3 border border-foreground/20 rounded-full text-sm tracking-wide hover:bg-foreground hover:text-background transition-all">
                 View Full Gallery
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
@@ -623,12 +623,15 @@ export default function Home() {
                 viewport={{ once: true }}
               >
                 <Image 
-                  src="/images/goddess/goddess-1.jpg" 
-                  alt="Gallery image 1"
+                  src="/images/gallery/gallery-1.jpg" 
+                  alt="Cocktail party networking event"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-4 left-4 text-sm text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Cocktail Party
+                </div>
               </motion.div>
               
               <motion.div 
@@ -639,12 +642,15 @@ export default function Home() {
                 transition={{ delay: 0.1 }}
               >
                 <Image 
-                  src="/images/goddess/goddess-2.jpg" 
-                  alt="Gallery image 2"
+                  src="/images/gallery/gallery-2.jpg" 
+                  alt="Elegant dinner party"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-4 left-4 text-sm text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Dinner Party
+                </div>
               </motion.div>
               
               <motion.div 
@@ -655,12 +661,15 @@ export default function Home() {
                 transition={{ delay: 0.2 }}
               >
                 <Image 
-                  src="/images/goddess/goddess-3.jpg" 
-                  alt="Gallery image 3"
+                  src="/images/gallery/gallery-3.jpg" 
+                  alt="Garden party celebration"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-4 left-4 text-sm text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Garden Party
+                </div>
               </motion.div>
               
               <motion.div 
@@ -671,12 +680,15 @@ export default function Home() {
                 transition={{ delay: 0.3 }}
               >
                 <Image 
-                  src="/images/goddess/goddess-4.jpg" 
-                  alt="Gallery image 4"
+                  src="/images/gallery/gallery-4.jpg" 
+                  alt="Live jazz performance"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-4 left-4 text-sm text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Live Jazz
+                </div>
               </motion.div>
               
               <motion.div 
@@ -687,12 +699,15 @@ export default function Home() {
                 transition={{ delay: 0.4 }}
               >
                 <Image 
-                  src="/images/goddess/goddess-5.jpg" 
-                  alt="Gallery image 5"
+                  src="/images/gallery/gallery-5.jpg" 
+                  alt="Wine tasting event"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-4 left-4 text-sm text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Wine Tasting
+                </div>
               </motion.div>
             </div>
           </div>
