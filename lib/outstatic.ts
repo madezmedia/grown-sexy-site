@@ -119,6 +119,7 @@ export interface Artist {
     youtube?: string
   }
   featuredOnHomepage?: boolean
+  tagline?: string
 }
 
 export async function getArtists(): Promise<Artist[]> {
@@ -133,7 +134,8 @@ export async function getArtists(): Promise<Artist[]> {
       'gallery',
       'genre',
       'socialLinks',
-      'featuredOnHomepage'
+      'featuredOnHomepage',
+      'tagline'
     ]) as unknown as Artist[]
 
     return artists
@@ -165,7 +167,8 @@ export async function getArtistBySlug(slug: string): Promise<Artist | null> {
       'gallery',
       'genre',
       'socialLinks',
-      'featuredOnHomepage'
+      'featuredOnHomepage',
+      'tagline'
     ])
 
     return artist as unknown as Artist
