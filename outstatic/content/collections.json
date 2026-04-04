@@ -1,5 +1,11 @@
 [
   {
+    "title": "Homepage",
+    "slug": "homepage",
+    "path": "outstatic/content/homepage",
+    "children": []
+  },
+  {
     "title": "Artists",
     "slug": "artists",
     "path": "outstatic/content/artists",
