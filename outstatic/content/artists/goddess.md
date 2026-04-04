@@ -20,6 +20,7 @@ socialLinks:
   spotify: 'https://open.spotify.com/artist/goddess'
   youtube: 'https://youtube.com/@goddess'
 featuredOnHomepage: true
+tagline: 'Elegance, Confidence, Artistry'
 ---
 
 ## The Artist. The Movement. The Energy.

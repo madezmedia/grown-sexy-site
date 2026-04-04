@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { JoinFlow } from '@/components/onboarding/JoinFlow'
 import { HeroVideo } from '@/components/hero/HeroVideo'
+import { FeaturedArtistSection } from '@/components/artist/FeaturedArtistSection'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRight, ArrowUpRight, Play, Calendar, Users, Sparkles } from 'lucide-react'
@@ -272,14 +273,41 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Artist Section with Parallax */}
+        {/* Featured Artists Section */}
+        <FeaturedArtistSection
+          artists={[
+            {
+              slug: 'goddess',
+              stageName: 'GODDE$$',
+              coverImage: '/images/goddess/goddess-preview.jpg',
+              tagline: 'Elegance, Confidence, Artistry',
+              genre: ['R&B', 'Neo-Soul', 'Hip-Hop']
+            },
+            {
+              slug: 'marcus-cole',
+              stageName: 'Marcus Cole',
+              coverImage: '/images/events/wine.jpg',
+              tagline: 'Smooth Jazz & Soul',
+              genre: ['Jazz', 'R&B', 'Soul']
+            },
+            {
+              slug: 'dj-velvet',
+              stageName: 'DJ Velvet',
+              coverImage: '/images/events/dance-party.jpg',
+              tagline: 'The Vibe Curator',
+              genre: ['House', 'Neo-Soul', 'Classic R&B']
+            }
+          ]}
+        />
+
+        {/* About Community Section with Parallax */}
         <motion.section
           ref={aboutRef}
-          className="relative py-24 md:py-40 px-6"
+          className="relative py-24 md:py-32 px-6 bg-card"
           style={{ position: 'relative' }}
         >
           {/* Background Image with Parallax */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 z-0"
             style={{ y: aboutImageY }}
           >
@@ -287,56 +315,15 @@ export default function Home() {
             <div className="absolute inset-0 bg-background/90" />
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="relative z-10 max-w-7xl mx-auto"
             style={{ y: aboutY }}
           >
-            <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
-              {/* Left: Large Image Card */}
-              <div className="lg:col-span-5">
-                <Link href="/artist/goddess" className="group block">
-                  <motion.div 
-                    className="aspect-[3/4] bg-card rounded-3xl overflow-hidden relative"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    <Image 
-                      src="/images/goddess/goddess-preview.jpg" 
-                      alt="GODDE$$ - Featured Artist"
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-transparent to-muted/20" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-                    
-                    {/* Play button overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-20 h-20 rounded-full bg-foreground/10 backdrop-blur-md flex items-center justify-center group-hover:bg-foreground/20 group-hover:scale-110 transition-all duration-500">
-                        <Play className="w-8 h-8 ml-1" />
-                      </div>
-                    </div>
-
-                    {/* Artist Info */}
-                    <div className="absolute bottom-0 left-0 right-0 p-8">
-                      <span className="text-xs tracking-[0.3em] uppercase text-foreground/50 mb-3 block">
-                        Featured Artist
-                      </span>
-                      <h3 className="text-4xl md:text-5xl font-display mb-2">GODDE$$</h3>
-                      <div className="flex items-center gap-2 text-sm text-foreground/60 group-hover:text-foreground transition-colors">
-                        <span>View Gallery</span>
-                        <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              </div>
-
-              {/* Right: About Content */}
-              <div className="lg:col-span-7 space-y-12">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left: Content */}
+              <div className="space-y-12">
                 <div>
-                  <motion.span 
+                  <motion.span
                     className="text-xs tracking-[0.3em] uppercase text-accent mb-6 block"
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -344,30 +331,30 @@ export default function Home() {
                   >
                     About Our Community
                   </motion.span>
-                  <motion.h2 
+                  <motion.h2
                     className="text-4xl md:text-5xl lg:text-6xl font-display leading-tight mb-8"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
                   >
-                    Where age is 
+                    Where age is
                     <span className="text-foreground/40 block">celebrated, not hidden</span>
                   </motion.h2>
-                  <motion.p 
+                  <motion.p
                     className="text-foreground/60 text-lg md:text-xl leading-relaxed max-w-xl"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
                   >
-                    We cater to the intellectual and self-motivated who are inspired to keep 
+                    We cater to the intellectual and self-motivated who are inspired to keep
                     themselves and their community pushing forward. No nonsense, just growth.
                   </motion.p>
                 </div>
 
                 {/* Stats Grid */}
-                <motion.div 
+                <motion.div
                   className="grid grid-cols-3 gap-8"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -392,7 +379,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.4 }}
                 >
-                  <button 
+                  <button
                     onClick={() => setIsJoinFlowOpen(true)}
                     className="group inline-flex items-center gap-3 text-sm tracking-wide"
                   >
@@ -405,6 +392,23 @@ export default function Home() {
                   </button>
                 </motion.div>
               </div>
+
+              {/* Right: Image */}
+              <motion.div
+                className="relative aspect-[4/5] rounded-3xl overflow-hidden"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+              >
+                <Image
+                  src="/images/events/wine.jpg"
+                  alt="Community gathering at wine tasting event"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-transparent to-muted/30" />
+              </motion.div>
             </div>
           </motion.div>
         </motion.section>
