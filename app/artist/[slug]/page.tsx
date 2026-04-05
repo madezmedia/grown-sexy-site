@@ -32,15 +32,24 @@ let artistsCache: (ArtistFrontmatter & { content: string })[] | null = null;
 function getArtistsData(): (ArtistFrontmatter & { content: string })[] {
   if (artistsCache) return artistsCache;
 
+  // Use process.cwd() which works in both local and Vercel environments
+  const cwd = process.cwd();
+  
   // Try multiple possible paths for the content directory
   const possiblePaths = [
-    path.join(process.cwd(), "outstatic", "content", "artists"),
-    path.join(process.cwd(), "content", "artists"),
+    path.join(cwd, "outstatic", "content", "artists"),
+    // Vercel may trace files to .next directory
+    path.join(cwd, ".next", "server", "outstatic", "content", "artists"),
+    // Try relative to current file location
     path.join(__dirname, "..", "..", "..", "outstatic", "content", "artists"),
+    path.join(__dirname, "..", "..", "..", "..", "..", "outstatic", "content", "artists"),
   ];
+
+  console.log("Looking for artists in paths:", possiblePaths);
 
   let artistsPath: string | null = null;
   for (const p of possiblePaths) {
+    console.log(`Checking path: ${p} - exists: ${fs.existsSync(p)}`);
     if (fs.existsSync(p)) {
       artistsPath = p;
       break;
@@ -48,12 +57,16 @@ function getArtistsData(): (ArtistFrontmatter & { content: string })[] {
   }
 
   if (!artistsPath) {
-    console.error("Could not find artists content directory");
+    console.error("Could not find artists content directory. Tried:", possiblePaths);
     return (artistsCache = []);
   }
 
+  console.log(`Found artists directory at: ${artistsPath}`);
+
   try {
     const files = fs.readdirSync(artistsPath).filter((f) => f.endsWith(".md"));
+    console.log(`Found ${files.length} artist files:`, files);
+    
     const artists = files.map((file) => {
       const filePath = path.join(artistsPath!, file);
       const fileContents = fs.readFileSync(filePath, "utf8");
@@ -64,6 +77,7 @@ function getArtistsData(): (ArtistFrontmatter & { content: string })[] {
         content,
       };
     });
+    console.log(`Loaded ${artists.length} artists`);
     artistsCache = artists;
     return artists;
   } catch (error) {
@@ -79,6 +93,7 @@ function getArtistsData(): (ArtistFrontmatter & { content: string })[] {
 // Generate static params for all artists
 export async function generateStaticParams() {
   const artists = getArtistsData();
+  console.log("generateStaticParams - artists:", artists.map(a => a.slug));
   return artists.map((artist) => ({ slug: artist.slug }));
 }
 
@@ -107,6 +122,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default function ArtistPageRoute({ params }: { params: { slug: string } }) {
   const artists = getArtistsData();
   const artist = artists.find((a) => a.slug === params.slug);
+
+  console.log(`ArtistPageRoute - slug: ${params.slug}, found: ${!!artist}`);
 
   if (!artist) {
     notFound();
