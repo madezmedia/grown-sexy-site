@@ -108,26 +108,28 @@ export async function getFeaturedEvents(): Promise<Event[]> {
 
 export async function getEventBySlug(slug: string): Promise<Event | null> {
   try {
-    const event = getDocumentBySlug('events', slug, [
-      'title',
-      'slug',
-      'publishedAt',
-      'subtitle',
-      'date',
-      'time',
-      'location',
-      'price',
-      'category',
-      'coverImage',
-      'isFeatured',
-      'prizePool',
-      'spots',
-      'highlights',
-      'status',
-      'content'
-    ])
-
-    return event as unknown as Event
+    const file = readMarkdownFile('events', slug)
+    if (!file) return null
+    
+    const { frontmatter, content } = file
+    return {
+      slug: frontmatter.slug as string || slug,
+      title: frontmatter.title as string || '',
+      subtitle: frontmatter.subtitle as string | undefined,
+      content: content,
+      publishedAt: frontmatter.publishedAt as string || '',
+      date: frontmatter.date as string || '',
+      time: frontmatter.time as string || '',
+      location: frontmatter.location as string || '',
+      price: frontmatter.price as string || '',
+      category: frontmatter.category as Event['category'] || 'Wine',
+      coverImage: frontmatter.coverImage as string | undefined,
+      isFeatured: frontmatter.isFeatured as boolean | undefined,
+      prizePool: frontmatter.prizePool as string | undefined,
+      spots: frontmatter.spots as number | undefined,
+      highlights: frontmatter.highlights as string[] | undefined,
+      status: frontmatter.status as Event['status'] || 'upcoming',
+    }
   } catch (error) {
     console.error(`Error fetching event with slug ${slug}:`, error)
     return null
@@ -279,19 +281,21 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    const post = getDocumentBySlug('blog', slug, [
-      'title',
-      'slug',
-      'content',
-      'publishedAt',
-      'author',
-      'category',
-      'coverImage',
-      'excerpt',
-      'tags'
-    ])
-
-    return post as unknown as BlogPost
+    const file = readMarkdownFile('blog', slug)
+    if (!file) return null
+    
+    const { frontmatter, content } = file
+    return {
+      slug: frontmatter.slug as string || slug,
+      title: frontmatter.title as string || '',
+      content: content,
+      publishedAt: frontmatter.publishedAt as string || '',
+      author: frontmatter.author as string || '',
+      category: frontmatter.category as BlogPost['category'] || 'Community',
+      coverImage: frontmatter.coverImage as string | undefined,
+      excerpt: frontmatter.excerpt as string | undefined,
+      tags: frontmatter.tags as string[] | undefined,
+    }
   } catch (error) {
     console.error(`Error fetching blog post with slug ${slug}:`, error)
     return null
@@ -362,22 +366,24 @@ export async function getMusic(): Promise<Music[]> {
 
 export async function getMusicBySlug(slug: string): Promise<Music | null> {
   try {
-    const track = getDocumentBySlug('music', slug, [
-      'title',
-      'slug',
-      'artist',
-      'content',
-      'publishedAt',
-      'coverImage',
-      'audioUrl',
-      'spotifyUrl',
-      'appleMusicUrl',
-      'genre',
-      'releaseDate',
-      'featured'
-    ])
-
-    return track as unknown as Music
+    const file = readMarkdownFile('music', slug)
+    if (!file) return null
+    
+    const { frontmatter, content } = file
+    return {
+      slug: frontmatter.slug as string || slug,
+      title: frontmatter.title as string || '',
+      artist: frontmatter.artist as string || '',
+      content: content,
+      publishedAt: frontmatter.publishedAt as string || '',
+      coverImage: frontmatter.coverImage as string | undefined,
+      audioUrl: frontmatter.audioUrl as string | undefined,
+      spotifyUrl: frontmatter.spotifyUrl as string | undefined,
+      appleMusicUrl: frontmatter.appleMusicUrl as string | undefined,
+      genre: frontmatter.genre as string | undefined,
+      releaseDate: frontmatter.releaseDate as string | undefined,
+      featured: frontmatter.featured as boolean | undefined,
+    }
   } catch (error) {
     console.error(`Error fetching music with slug ${slug}:`, error)
     return null
@@ -434,20 +440,22 @@ export async function getVideos(): Promise<Video[]> {
 
 export async function getVideoBySlug(slug: string): Promise<Video | null> {
   try {
-    const video = getDocumentBySlug('videos', slug, [
-      'title',
-      'slug',
-      'content',
-      'publishedAt',
-      'coverImage',
-      'videoUrl',
-      'youtubeId',
-      'category',
-      'duration',
-      'featured'
-    ])
-
-    return video as unknown as Video
+    const file = readMarkdownFile('videos', slug)
+    if (!file) return null
+    
+    const { frontmatter, content } = file
+    return {
+      slug: frontmatter.slug as string || slug,
+      title: frontmatter.title as string || '',
+      content: content,
+      publishedAt: frontmatter.publishedAt as string || '',
+      coverImage: frontmatter.coverImage as string | undefined,
+      videoUrl: frontmatter.videoUrl as string | undefined,
+      youtubeId: frontmatter.youtubeId as string | undefined,
+      category: frontmatter.category as string | undefined,
+      duration: frontmatter.duration as string | undefined,
+      featured: frontmatter.featured as boolean | undefined,
+    }
   } catch (error) {
     console.error(`Error fetching video with slug ${slug}:`, error)
     return null
