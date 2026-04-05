@@ -50,7 +50,6 @@ function getArtistsData(): (ArtistFrontmatter & { content: string })[] {
   let artistsPath: string | null = null;
   for (const p of possiblePaths) {
     console.log(`Checking path: ${p} - exists: ${fs.existsSync(p)}`);
-    if (fs.existsSync(p)) {
       artistsPath = p;
       break;
     }
@@ -87,7 +86,7 @@ function getArtistsData(): (ArtistFrontmatter & { content: string })[] {
 }
 
 // ============================================
-// PAGE COMPONENT
+// PAGE component
 // ============================================
 
 // Generate static params for all artists

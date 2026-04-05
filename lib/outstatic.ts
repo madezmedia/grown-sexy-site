@@ -1,4 +1,48 @@
-import { getDocuments, getDocumentBySlug, getDocumentSlugs } from 'outstatic/server'
+import { getDocuments, getDocumentSlugs } from 'outstatic/server'
+import fs from 'fs'
+import path from 'path'
+import matter from 'gray-matter'
+
+// ============================================
+// DIRECT FILE READING (bypasses Outstatic bugs)
+// ============================================
+
+function readMarkdownFile(collection: string, slug: string): { frontmatter: Record<string, unknown>, content: string } | null {
+  try {
+    const contentDir = path.join(process.cwd(), 'outstatic/content', collection)
+    const filePath = path.join(contentDir, `${slug}.md`)
+    
+    if (!fs.existsSync(filePath)) {
+      return null
+    }
+    
+    const fileContent = fs.readFileSync(filePath, 'utf8')
+    const { data, content } = matter(fileContent)
+    
+    return {
+      frontmatter: data,
+      content: content.trim()
+    }
+  } catch (error) {
+    console.error(`Error reading ${collection}/${slug}:`, error)
+    return null
+  }
+}
+
+function getMarkdownSlugs(collection: string): string[] {
+  try {
+    const contentDir = path.join(process.cwd(), 'outstatic/content', collection)
+    if (!fs.existsSync(contentDir)) {
+      return []
+    }
+    return fs.readdirSync(contentDir)
+      .filter(file => file.endsWith('.md'))
+      .map(file => file.replace('.md', ''))
+  } catch (error) {
+    console.error(`Error getting slugs for ${collection}:`, error)
+    return []
+  }
+}
 
 // ============================================
 // EVENTS
@@ -124,20 +168,29 @@ export interface Artist {
 
 export async function getArtists(): Promise<Artist[]> {
   try {
-    const artists = getDocuments('artists', [
-      'name',
-      'slug',
-      'stageName',
-      'content',
-      'publishedAt',
-      'coverImage',
-      'gallery',
-      'genre',
-      'socialLinks',
-      'featuredOnHomepage',
-      'tagline'
-    ]) as unknown as Artist[]
-
+    const slugs = getMarkdownSlugs('artists')
+    const artists: Artist[] = []
+    
+    for (const slug of slugs) {
+      const file = readMarkdownFile('artists', slug)
+      if (file) {
+        const { frontmatter, content } = file
+        artists.push({
+          slug: frontmatter.slug as string || slug,
+          name: frontmatter.name as string || '',
+          stageName: frontmatter.stageName as string || '',
+          content: content,
+          publishedAt: frontmatter.publishedAt as string || '',
+          coverImage: frontmatter.coverImage as string | undefined,
+          gallery: frontmatter.gallery as string[] | undefined,
+          genre: frontmatter.genre as string[] | undefined,
+          socialLinks: frontmatter.socialLinks as Artist['socialLinks'] | undefined,
+          featuredOnHomepage: frontmatter.featuredOnHomepage as boolean | undefined,
+          tagline: frontmatter.tagline as string | undefined,
+        })
+      }
+    }
+    
     return artists
   } catch (error) {
     console.error('Error fetching artists:', error)
@@ -157,21 +210,26 @@ export async function getFeaturedArtist(): Promise<Artist | null> {
 
 export async function getArtistBySlug(slug: string): Promise<Artist | null> {
   try {
-    const artist = getDocumentBySlug('artists', slug, [
-      'name',
-      'slug',
-      'stageName',
-      'content',
-      'publishedAt',
-      'coverImage',
-      'gallery',
-      'genre',
-      'socialLinks',
-      'featuredOnHomepage',
-      'tagline'
-    ])
-
-    return artist as unknown as Artist
+    const file = readMarkdownFile('artists', slug)
+    if (!file) {
+      console.error(`Artist file not found: ${slug}`)
+      return null
+    }
+    
+    const { frontmatter, content } = file
+    return {
+      slug: frontmatter.slug as string || slug,
+      name: frontmatter.name as string || '',
+      stageName: frontmatter.stageName as string || '',
+      content: content,
+      publishedAt: frontmatter.publishedAt as string || '',
+      coverImage: frontmatter.coverImage as string | undefined,
+      gallery: frontmatter.gallery as string[] | undefined,
+      genre: frontmatter.genre as string[] | undefined,
+      socialLinks: frontmatter.socialLinks as Artist['socialLinks'] | undefined,
+      featuredOnHomepage: frontmatter.featuredOnHomepage as boolean | undefined,
+      tagline: frontmatter.tagline as string | undefined,
+    }
   } catch (error) {
     console.error(`Error fetching artist with slug ${slug}:`, error)
     return null
@@ -179,12 +237,7 @@ export async function getArtistBySlug(slug: string): Promise<Artist | null> {
 }
 
 export async function getAllArtistSlugs(): Promise<string[]> {
-  try {
-    return getDocumentSlugs('artists')
-  } catch (error) {
-    console.error('Error fetching artist slugs:', error)
-    return []
-  }
+  return getMarkdownSlugs('artists')
 }
 
 // ============================================
