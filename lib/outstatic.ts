@@ -9,10 +9,15 @@ import matter from 'gray-matter'
 
 function readMarkdownFile(collection: string, slug: string): { frontmatter: Record<string, unknown>, content: string } | null {
   try {
+    if (!slug) {
+      console.error(`readMarkdownFile: slug is undefined for collection ${collection}`)
+      return null
+    }
     const contentDir = path.join(process.cwd(), 'outstatic/content', collection)
     const filePath = path.join(contentDir, `${slug}.md`)
     
     if (!fs.existsSync(filePath)) {
+      console.error(`File not found: ${filePath}`)
       return null
     }
     
