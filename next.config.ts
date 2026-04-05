@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Include outstatic content files in the serverless bundle
+  outputFileTracingIncludes: {
+    "/*": ["./outstatic/content/**/*"],
+  },
 };
 
 export default nextConfig;
