@@ -1,17 +1,36 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArtistPage } from "@/components/artist/ArtistPage";
-import { getArtistBySlug, getAllArtistSlugs, type Artist } from "@/lib/outstatic";
+import artistsData from "@/data/artists.json";
 
-// Generate static params for all artists
+interface ArtistFrontmatter {
+  name: string;
+  slug: string;
+  stageName: string;
+  coverImage: string;
+  gallery: string[];
+  genre: string[];
+  socialLinks: {
+    instagram?: string;
+    twitter?: string;
+    spotify?: string;
+    youtube?: string;
+  };
+  tagline?: string;
+  featuredOnHomepage?: boolean;
+  content: string;
+}
+
+// Get all artist slugs
 export async function generateStaticParams() {
-  const slugs = await getAllArtistSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return artistsData.map((artist: ArtistFrontmatter) => ({
+    slug: artist.slug,
+  }));
 }
 
 // Generate metadata for each artist
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const artist = await getArtistBySlug(params.slug);
+  const artist = artistsData.find((a: ArtistFrontmatter) => a.slug === params.slug);
   
   if (!artist) {
     return {
@@ -21,7 +40,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   return {
     title: `${artist.stageName} | The Grown & Sexy Movement`,
-    description: `Featured artist ${artist.stageName} of The Grown & Sexy Movement.`,
+    description: artist.tagline || `Featured artist ${artist.stageName} of The Grown & Sexy Movement.`,
     openGraph: {
       title: artist.stageName,
       description: artist.tagline || `Featured artist of The Grown & Sexy Movement`,
@@ -30,8 +49,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function ArtistPageRoute({ params }: { params: { slug: string } }) {
-  const artist = await getArtistBySlug(params.slug);
+export default function ArtistPageRoute({ params }: { params: { slug: string } }) {
+  const artist = artistsData.find((a: ArtistFrontmatter) => a.slug === params.slug);
 
   if (!artist) {
     notFound();
